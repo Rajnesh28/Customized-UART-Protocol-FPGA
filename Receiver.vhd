@@ -6,43 +6,36 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity RECIEVER is
-  port(CLOCK_50            : in  std_logic;
-       KEY                 : in  std_logic_vector(3 downto 0););
-end Bresenham;
+entity RECEIVER is
+  port(
+		  KEY		  : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+		  CLOCK_50 : IN STD_LOGIC;
+        UART_RTS : IN STD_LOGIC;
+		  UART_RTX : IN STD_LOGIC;--
+		  
+		  LEDG	  : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+		  UART_CTS : OUT STD_LOGIC;
+		  UART_TXD : OUT STD_LOGIC);					
+end RECEIVER;
 
-architecture rtl of RECIEVER is
-
-
-component vga_adapter
- generic(RESOLUTION : string);
- port (reset                                       : in  std_logic;
-		 clock                                        : in  std_logic;);
-end component;
-
+architecture rtl of RECEIVER is
 	
 --States
-type STATE IS (RESET, IDLE, WAIT1.5PERIODS, READ_DATA, VERIFY_PARITY, DISPLAY_LCD, TRANSMIT_MESSAGE); 
+type STATE IS (RESET, IDLE, WAITPERIODS, READ_DATA, VERIFY_PARITY, DISPLAY_LCD, TRANSMIT_MESSAGE); 
 SIGNAL CURRENT_STATE : STATE; 
 
-SIGNAL DATA_T 		: UNSIGNED(8 DOWNTO 0);
+--SIGNAL DATA_T 		: UNSIGNED(8 DOWNTO 0);
 SIGNAL REDO_TRANSMIT : STD_LOGIC := '0';
 SIGNAL PARITY_T		: STD_LOGIC := '0';
-SIGNAL START		: STD_LOGIC := '0';
+SIGNAL DATA_R		: STD_LOGIC_VECTOR(7 DOWNTO 0);
+SIGNAL PARITY_R		: STD_LOGIC := '1';
 
 begin
-
-vga_u0 : vga_adapter
- generic map(RESOLUTION => "160x120") 
- port map(reset    => KEY(3),
-			 clock     => CLOCK_50);
-
-			
+	
 NEXT_LOGIC : PROCESS(CLOCK_50, KEY)
-variable CYCLES : INTEGER
-variable DATA_CYCLES : INTEGER
-variable INDEX : INTEGER
-VARIABLE  PARITY_R : STD_LOGIC := 0;
+variable CYCLES : INTEGER;
+variable DATA_CYCLES : INTEGER;
+variable INDEX : INTEGER;
 BEGIN
 IF (KEY(3) = '0') THEN
 	CURRENT_STATE <= RESET;
@@ -58,30 +51,35 @@ ELSIF (RISING_EDGE(CLOCK_50)) THEN
 		CURRENT_STATE <= IDLE;
 		
 	WHEN IDLE =>
-		IF (START = '1') THEN
-			CURRENT_STATE <= WAIT1.5PERIODS;
+		IF (UART_RTX = '0') THEN
+			CURRENT_STATE <= WAITPERIODS;
 		ELSE 
 			CURRENT_STATE <= IDLE;
 		END IF;
 	
-	WHEN WAIT1.5PERIODS => 
+	WHEN WAITPERIODS => 
 		IF (CYCLES = 3908) THEN	
+			DATA_R(INDEX) <= UART_RTX;
 			CURRENT_STATE <= READ_DATA;
 		ELSE 
 			CYCLES := CYCLES + 1;
-			CURRENT_STATE <= WAIT1.5PERIODS;
+			CURRENT_STATE <= WAITPERIODS;
 		END IF;
 
 		WHEN READ_DATA =>
 			IF (DATA_CYCLES = 2605) THEN
-				DATA_R(INDEX) <= DATA_T(INDEX);
-				IF (INDEX < 8) THEN
+				IF (INDEX < 10) THEN
 					INDEX := INDEX + 1;
-					DATA_CYCLES := 0;
-					CURRENT_STATE <= READ_DATA;
-				ELSE 
-					INDEX := 0;
-					CURRENT_STATE <= VERIFY_PARITY;
+					IF (INDEX = 9) THEN
+						PARITY_T <= UART_RTX;
+					ELSIF (INDEX = 10) THEN
+						INDEX := 0;
+						CURRENT_STATE <= VERIFY_PARITY;
+					ELSE
+						DATA_R(INDEX) <= UART_RTX;
+						DATA_CYCLES := 0;
+						CURRENT_STATE <= READ_DATA;
+					END IF;
 				END IF;
 			ELSE
 				DATA_CYCLES := DATA_CYCLES + 1;
@@ -89,13 +87,13 @@ ELSIF (RISING_EDGE(CLOCK_50)) THEN
 			END IF;
 
 		WHEN VERIFY_PARITY =>
-			IF (DATA_R(INDEX) = '1')
-				PARITY_R := NOT PARITY_R;
+			IF (DATA_R(INDEX) = '1') THEN
+				PARITY_R <= NOT PARITY_R;
 			ELSE
-				PARITY_R := PARITY_R;
+				PARITY_R <= PARITY_R;
 			END IF;
 			
-			IF (INDEX < 8)THEN
+			IF (INDEX < 7)THEN
 				INDEX := INDEX + 1;
 				CURRENT_STATE <= VERIFY_PARITY;
 			ELSIF (PARITY_R = PARITY_T) THEN
@@ -109,7 +107,7 @@ ELSIF (RISING_EDGE(CLOCK_50)) THEN
 			CURRENT_STATE <= TRANSMIT_MESSAGE;
 			
 		WHEN TRANSMIT_MESSAGE =>
-			CURERNT_STATE <= IDLE;
+			CURRENT_STATE <= IDLE;
 			
 		END CASE;
 		
