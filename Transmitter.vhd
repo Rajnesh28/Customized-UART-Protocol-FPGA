@@ -31,7 +31,7 @@ implicitFSM: PROCESS(CLOCK_50)
 VARIABLE memoryCounter : INTEGER RANGE 0 TO 256;
 VARIABLE messageByteCounter : INTEGER Range 0 TO 256;
 VARIABLE messageByte : STD_LOGIC_VECTOR(7 DOWNTO 0);
-VARIABLE K : INTEGER RANGE 0 TO 20;
+VARIABLE K : INTEGER RANGE 0 TO 11;
 
 VARIABLE parityBit : STD_LOGIC;
 VARIABLE stopBit : STD_LOGIC;
@@ -55,37 +55,30 @@ ELSIF(RISING_EDGE(CLOCK_50)) THEN
 	
 	WHEN init =>
 		--messageByte := "01000001";
-		parityBit := '1';
+		parityBit := '0';
 		startBit := '0';
 		stopBit := '1';
 		UART_CTS <= '1';
 		UART_TXD <= '1';
-
-		K:= 0;
 		
-		if (COUNTER = 10) THEN
-			--messageToTransmit <= startBit & "01010101" & parityBit & stopBit;
-			messageToTransmit := "001010101" & parityBit & stopBit;		
-			transmitState<= transmit;
-		else
-			COUNTER := COUNTER + 1;
-			transmitState <= init;
-		END IF;
+		messageToTransmit := startbit & "10101010" & parityBit & stopBit;	--its transmitting backwards!!!!
+		UART_TXD <= messageToTransmit(K);
+		transmitState<= transmit;
 		
 	WHEN transmit =>
-		UART_TXD <= messageToTransmit(K);
-
-		IF (DATA_CYCLES = 10) THEN
-			 IF (K < 10) THEN
-				K := K + 1;
-				DATA_CYCLES := 0;
-				transmitState <= transmit;
-			 ELSE 
-				transmitState <= endTransmit;
-			 END IF;
-		ELSE
-			 DATA_CYCLES := DATA_CYCLES + 1;
-			 transmitState <= transmit;
+	IF (DATA_CYCLES = 10) THEN
+		IF (K < 10) THEN
+			K := K + 1;
+			UART_TXD <= messageToTransmit(K);
+			DATA_CYCLES := 0;
+			TRANSMITSTATE <= TRANSMIT;
+		ELSIF (K = 10) THEN
+			UART_TXD <= messageToTransmit(K);
+			TRANSMITSTATE <= ENDTRANSMIT;
+		END IF;
+	ELSE	
+		DATA_CYCLES := DATA_CYCLES + 1;
+		transmitState <= transmit;
 		END IF;
 
 		
