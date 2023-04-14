@@ -1,5 +1,5 @@
 Analysis & Synthesis report for UART
-Wed Apr 05 14:15:44 2023
+Thu Apr 13 13:49:55 2023
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -13,14 +13,13 @@ Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
   5. Analysis & Synthesis Source Files Read
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
-  8. State Machine - |RECEIVER|CURRENT_STATE
+  8. State Machine - |TRANSMITTER|transmitState
   9. Registers Removed During Synthesis
- 10. Removed Registers Triggering Further Register Optimizations
- 11. General Register Statistics
- 12. Multiplexer Restructuring Statistics (Restructuring Performed)
- 13. Post-Synthesis Netlist Statistics for Top Partition
- 14. Elapsed Time Per Partition
- 15. Analysis & Synthesis Messages
+ 10. General Register Statistics
+ 11. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 12. Post-Synthesis Netlist Statistics for Top Partition
+ 13. Elapsed Time Per Partition
+ 14. Analysis & Synthesis Messages
 
 
 
@@ -47,15 +46,15 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Apr 05 14:15:44 2023       ;
+; Analysis & Synthesis Status        ; Successful - Thu Apr 13 13:49:55 2023       ;
 ; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; UART                                        ;
-; Top-level Entity Name              ; RECEIVER                                    ;
+; Top-level Entity Name              ; TRANSMITTER                                 ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 0                                           ;
-;     Total combinational functions  ; 0                                           ;
-;     Dedicated logic registers      ; 0                                           ;
-; Total registers                    ; 0                                           ;
+; Total logic elements               ; 77                                          ;
+;     Total combinational functions  ; 77                                          ;
+;     Dedicated logic registers      ; 49                                          ;
+; Total registers                    ; 49                                          ;
 ; Total pins                         ; 17                                          ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 0                                           ;
@@ -70,7 +69,7 @@ https://fpgasoftware.intel.com/eula.
 ; Option                                                           ; Setting            ; Default Value      ;
 +------------------------------------------------------------------+--------------------+--------------------+
 ; Device                                                           ; EP4CE115F29C7      ;                    ;
-; Top-level entity name                                            ; Receiver           ; UART               ;
+; Top-level entity name                                            ; Transmitter        ; UART               ;
 ; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
 ; Use smart compilation                                            ; Off                ; Off                ;
 ; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
@@ -159,51 +158,53 @@ https://fpgasoftware.intel.com/eula.
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 1           ;
+; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
+;     Processors 2-4         ;   0.0%      ;
 +----------------------------+-------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                             ;
-+----------------------------------+-----------------+-----------------+-----------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                      ; Library ;
-+----------------------------------+-----------------+-----------------+-----------------------------------------------------------------------------------+---------+
-; Receiver.vhd                     ; yes             ; User VHDL File  ; C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd ;         ;
-+----------------------------------+-----------------+-----------------+-----------------------------------------------------------------------------------+---------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                         ; Library ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------+---------+
+; Transmitter.vhd                  ; yes             ; User VHDL File  ; C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd ;         ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------+---------+
 
 
-+------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary          ;
-+---------------------------------------------+--------+
-; Resource                                    ; Usage  ;
-+---------------------------------------------+--------+
-;                                             ;        ;
-; Total combinational functions               ; 0      ;
-; Logic element usage by number of LUT inputs ;        ;
-;     -- 4 input functions                    ; 0      ;
-;     -- 3 input functions                    ; 0      ;
-;     -- <=2 input functions                  ; 0      ;
-;                                             ;        ;
-; Logic elements by mode                      ;        ;
-;     -- normal mode                          ; 0      ;
-;     -- arithmetic mode                      ; 0      ;
-;                                             ;        ;
-; Total registers                             ; 0      ;
-;     -- Dedicated logic registers            ; 0      ;
-;     -- I/O registers                        ; 0      ;
-;                                             ;        ;
-; I/O pins                                    ; 17     ;
-;                                             ;        ;
-; Embedded Multiplier 9-bit elements          ; 0      ;
-;                                             ;        ;
-; Maximum fan-out node                        ; KEY[0] ;
-; Maximum fan-out                             ; 1      ;
-; Total fan-out                               ; 17     ;
-; Average fan-out                             ; 0.50   ;
-+---------------------------------------------+--------+
++--------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                  ;
++---------------------------------------------+----------------+
+; Resource                                    ; Usage          ;
++---------------------------------------------+----------------+
+; Estimated Total logic elements              ; 77             ;
+;                                             ;                ;
+; Total combinational functions               ; 77             ;
+; Logic element usage by number of LUT inputs ;                ;
+;     -- 4 input functions                    ; 25             ;
+;     -- 3 input functions                    ; 8              ;
+;     -- <=2 input functions                  ; 44             ;
+;                                             ;                ;
+; Logic elements by mode                      ;                ;
+;     -- normal mode                          ; 37             ;
+;     -- arithmetic mode                      ; 40             ;
+;                                             ;                ;
+; Total registers                             ; 49             ;
+;     -- Dedicated logic registers            ; 49             ;
+;     -- I/O registers                        ; 0              ;
+;                                             ;                ;
+; I/O pins                                    ; 17             ;
+;                                             ;                ;
+; Embedded Multiplier 9-bit elements          ; 0              ;
+;                                             ;                ;
+; Maximum fan-out node                        ; CLOCK_50~input ;
+; Maximum fan-out                             ; 49             ;
+; Total fan-out                               ; 408            ;
+; Average fan-out                             ; 2.55           ;
++---------------------------------------------+----------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -211,67 +212,34 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
 ; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Entity Name ; Library Name ;
 +----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
-; |RECEIVER                  ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 17   ; 0            ; |RECEIVER           ; RECEIVER    ; work         ;
+; |TRANSMITTER               ; 77 (77)             ; 49 (49)                   ; 0           ; 0            ; 0       ; 0         ; 17   ; 0            ; |TRANSMITTER        ; TRANSMITTER ; work         ;
 +----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
 Encoding Type:  One-Hot
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; State Machine - |RECEIVER|CURRENT_STATE                                                                                                                                                                                    ;
-+--------------------------------+--------------------------------+---------------------------+-----------------------------+-------------------------+---------------------------+--------------------+---------------------+
-; Name                           ; CURRENT_STATE.TRANSMIT_MESSAGE ; CURRENT_STATE.DISPLAY_LCD ; CURRENT_STATE.VERIFY_PARITY ; CURRENT_STATE.READ_DATA ; CURRENT_STATE.WAITPERIODS ; CURRENT_STATE.IDLE ; CURRENT_STATE.RESET ;
-+--------------------------------+--------------------------------+---------------------------+-----------------------------+-------------------------+---------------------------+--------------------+---------------------+
-; CURRENT_STATE.RESET            ; 0                              ; 0                         ; 0                           ; 0                       ; 0                         ; 0                  ; 0                   ;
-; CURRENT_STATE.IDLE             ; 0                              ; 0                         ; 0                           ; 0                       ; 0                         ; 1                  ; 1                   ;
-; CURRENT_STATE.WAITPERIODS      ; 0                              ; 0                         ; 0                           ; 0                       ; 1                         ; 0                  ; 1                   ;
-; CURRENT_STATE.READ_DATA        ; 0                              ; 0                         ; 0                           ; 1                       ; 0                         ; 0                  ; 1                   ;
-; CURRENT_STATE.VERIFY_PARITY    ; 0                              ; 0                         ; 1                           ; 0                       ; 0                         ; 0                  ; 1                   ;
-; CURRENT_STATE.DISPLAY_LCD      ; 0                              ; 1                         ; 0                           ; 0                       ; 0                         ; 0                  ; 1                   ;
-; CURRENT_STATE.TRANSMIT_MESSAGE ; 1                              ; 0                         ; 0                           ; 0                       ; 0                         ; 0                  ; 1                   ;
-+--------------------------------+--------------------------------+---------------------------+-----------------------------+-------------------------+---------------------------+--------------------+---------------------+
++-----------------------------------------------------------------------------------------------------+
+; State Machine - |TRANSMITTER|transmitState                                                          ;
++---------------------------+---------------------------+------------------------+--------------------+
+; Name                      ; transmitState.endTransmit ; transmitState.transmit ; transmitState.init ;
++---------------------------+---------------------------+------------------------+--------------------+
+; transmitState.init        ; 0                         ; 0                      ; 0                  ;
+; transmitState.transmit    ; 0                         ; 1                      ; 1                  ;
+; transmitState.endTransmit ; 1                         ; 0                      ; 1                  ;
++---------------------------+---------------------------+------------------------+--------------------+
 
 
-+--------------------------------------------------------------+
-; Registers Removed During Synthesis                           ;
-+-----------------------------------------+--------------------+
-; Register name                           ; Reason for Removal ;
-+-----------------------------------------+--------------------+
-; PARITY_R                                ; Lost fanout        ;
-; PARITY_T                                ; Lost fanout        ;
-; \NEXT_LOGIC:INDEX[0..31]                ; Lost fanout        ;
-; \NEXT_LOGIC:CYCLES[0..31]               ; Lost fanout        ;
-; \NEXT_LOGIC:DATA_CYCLES[0..31]          ; Lost fanout        ;
-; DATA_R[0..7]                            ; Lost fanout        ;
-; CURRENT_STATE.RESET                     ; Lost fanout        ;
-; CURRENT_STATE.IDLE                      ; Lost fanout        ;
-; CURRENT_STATE.WAITPERIODS               ; Lost fanout        ;
-; CURRENT_STATE.READ_DATA                 ; Lost fanout        ;
-; CURRENT_STATE.VERIFY_PARITY             ; Lost fanout        ;
-; CURRENT_STATE.DISPLAY_LCD               ; Lost fanout        ;
-; CURRENT_STATE.TRANSMIT_MESSAGE          ; Lost fanout        ;
-; Total Number of Removed Registers = 113 ;                    ;
-+-----------------------------------------+--------------------+
-
-
-+--------------------------------------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                                                ;
-+-----------------------------+--------------------+-----------------------------------------------------------------------------------------+
-; Register name               ; Reason for Removal ; Registers Removed due to This Register                                                  ;
-+-----------------------------+--------------------+-----------------------------------------------------------------------------------------+
-; PARITY_T                    ; Lost Fanouts       ; \NEXT_LOGIC:INDEX[31], \NEXT_LOGIC:INDEX[30], \NEXT_LOGIC:INDEX[29],                    ;
-;                             ;                    ; \NEXT_LOGIC:DATA_CYCLES[31], \NEXT_LOGIC:DATA_CYCLES[30],                               ;
-;                             ;                    ; \NEXT_LOGIC:DATA_CYCLES[29], \NEXT_LOGIC:DATA_CYCLES[28],                               ;
-;                             ;                    ; \NEXT_LOGIC:DATA_CYCLES[27], \NEXT_LOGIC:DATA_CYCLES[26],                               ;
-;                             ;                    ; \NEXT_LOGIC:DATA_CYCLES[25], CURRENT_STATE.RESET, CURRENT_STATE.READ_DATA               ;
-; PARITY_R                    ; Lost Fanouts       ; DATA_R[7], DATA_R[6], DATA_R[5], DATA_R[4], DATA_R[3], DATA_R[2], DATA_R[1], DATA_R[0], ;
-;                             ;                    ; CURRENT_STATE.VERIFY_PARITY                                                             ;
-; \NEXT_LOGIC:DATA_CYCLES[11] ; Lost Fanouts       ; \NEXT_LOGIC:DATA_CYCLES[10], \NEXT_LOGIC:DATA_CYCLES[9], \NEXT_LOGIC:DATA_CYCLES[8],    ;
-;                             ;                    ; \NEXT_LOGIC:DATA_CYCLES[7], \NEXT_LOGIC:DATA_CYCLES[6]                                  ;
-; \NEXT_LOGIC:DATA_CYCLES[5]  ; Lost Fanouts       ; \NEXT_LOGIC:DATA_CYCLES[4], \NEXT_LOGIC:DATA_CYCLES[3], \NEXT_LOGIC:DATA_CYCLES[2],     ;
-;                             ;                    ; \NEXT_LOGIC:DATA_CYCLES[1], \NEXT_LOGIC:DATA_CYCLES[0]                                  ;
-; \NEXT_LOGIC:CYCLES[31]      ; Lost Fanouts       ; CURRENT_STATE.WAITPERIODS                                                               ;
-+-----------------------------+--------------------+-----------------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                         ;
++--------------------------------------------+-----------------------------------------------+
+; Register name                              ; Reason for Removal                            ;
++--------------------------------------------+-----------------------------------------------+
+; \implicitFSM:messageToTransmit[3,5,7,9,10] ; Stuck at GND due to stuck port data_in        ;
+; LEDG[0]~reg0                               ; Stuck at VCC due to stuck port data_in        ;
+; UART_CTS~reg0                              ; Stuck at VCC due to stuck port data_in        ;
+; \implicitFSM:messageToTransmit[1,2,4,6,8]  ; Merged with \implicitFSM:messageToTransmit[0] ;
+; Total Number of Removed Registers = 12     ;                                               ;
++--------------------------------------------+-----------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -279,27 +247,23 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 0     ;
+; Total registers                              ; 49    ;
 ; Number of registers using Synchronous Clear  ; 0     ;
 ; Number of registers using Synchronous Load   ; 0     ;
-; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Clear ; 48    ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 0     ;
+; Number of registers using Clock Enable       ; 36    ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output      ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------+
-; 7:1                ; 30 bits   ; 120 LEs       ; 30 LEs               ; 90 LEs                 ; Yes        ; |RECEIVER|\NEXT_LOGIC:INDEX[25] ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 2 LEs                ; 6 LEs                  ; Yes        ; |RECEIVER|\NEXT_LOGIC:INDEX[31] ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |RECEIVER|CURRENT_STATE         ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |RECEIVER|CURRENT_STATE         ;
-; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |RECEIVER|DATA_CYCLES           ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                          ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------+
+; 3:1                ; 12 bits   ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |TRANSMITTER|\implicitFSM:DATA_CYCLES[11] ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------+
 
 
 +-----------------------------------------------------+
@@ -308,12 +272,23 @@ Encoding Type:  One-Hot
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 17                          ;
-; cycloneiii_lcell_comb ; 1                           ;
-;     normal            ; 1                           ;
-;         0 data inputs ; 1                           ;
+; cycloneiii_ff         ; 49                          ;
+;     CLR               ; 13                          ;
+;     ENA               ; 1                           ;
+;     ENA CLR           ; 35                          ;
+; cycloneiii_lcell_comb ; 79                          ;
+;     arith             ; 40                          ;
+;         2 data inputs ; 38                          ;
+;         3 data inputs ; 2                           ;
+;     normal            ; 39                          ;
+;         0 data inputs ; 2                           ;
+;         1 data inputs ; 4                           ;
+;         2 data inputs ; 2                           ;
+;         3 data inputs ; 6                           ;
+;         4 data inputs ; 25                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 0.00                        ;
-; Average LUT depth     ; 0.00                        ;
+; Max LUT depth         ; 4.40                        ;
+; Average LUT depth     ; 3.19                        ;
 +-----------------------+-----------------------------+
 
 
@@ -332,7 +307,7 @@ Encoding Type:  One-Hot
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
-    Info: Processing started: Wed Apr 05 14:15:36 2023
+    Info: Processing started: Thu Apr 13 13:49:46 2023
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off UART -c UART
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
@@ -343,45 +318,42 @@ Info (12021): Found 2 design units, including 1 entities, in source file tb_tran
     Info (12022): Found design unit 1: tb_Transmitter-test File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/tb_Transmitter.vhd Line: 10
     Info (12023): Found entity 1: tb_Transmitter File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/tb_Transmitter.vhd Line: 6
 Info (12021): Found 2 design units, including 1 entities, in source file receiver.vhd
-    Info (12022): Found design unit 1: RECEIVER-rtl File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 21
+    Info (12022): Found design unit 1: RECEIVER-rtl File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 23
     Info (12023): Found entity 1: RECEIVER File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 9
 Info (12021): Found 2 design units, including 1 entities, in source file tb_receiver.vhd
     Info (12022): Found design unit 1: tb_receiver-test File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/tb_Receiver.vhd Line: 10
     Info (12023): Found entity 1: tb_RECEIVER File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/tb_Receiver.vhd Line: 6
-Info (12127): Elaborating entity "Receiver" for the top level hierarchy
-Warning (10541): VHDL Signal Declaration warning at Receiver.vhd(16): used implicit default value for signal "LEDG" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 16
-Warning (10541): VHDL Signal Declaration warning at Receiver.vhd(17): used implicit default value for signal "UART_CTS" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 17
-Warning (10541): VHDL Signal Declaration warning at Receiver.vhd(18): used implicit default value for signal "UART_TXD" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 18
-Warning (10036): Verilog HDL or VHDL warning at Receiver.vhd(28): object "REDO_TRANSMIT" assigned a value but never read File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 28
+Info (12127): Elaborating entity "Transmitter" for the top level hierarchy
+Warning (10036): Verilog HDL or VHDL warning at Transmitter.vhd(38): object "startBit" assigned a value but never read File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 38
+Warning (10492): VHDL Process Statement warning at Transmitter.vhd(46): signal "KEY" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 46
+Warning (10873): Using initial value X (don't care) for net "LEDG[7..1]" at Transmitter.vhd(18) File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 18
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "LEDG[0]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 16
-    Warning (13410): Pin "LEDG[1]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 16
-    Warning (13410): Pin "LEDG[2]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 16
-    Warning (13410): Pin "LEDG[3]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 16
-    Warning (13410): Pin "LEDG[4]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 16
-    Warning (13410): Pin "LEDG[5]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 16
-    Warning (13410): Pin "LEDG[6]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 16
-    Warning (13410): Pin "LEDG[7]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 16
-    Warning (13410): Pin "UART_CTS" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 17
-    Warning (13410): Pin "UART_TXD" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 18
-Info (17049): 113 registers lost all their fanouts during netlist optimizations.
+    Warning (13410): Pin "LEDG[0]" is stuck at VCC File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 46
+    Warning (13410): Pin "LEDG[1]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 18
+    Warning (13410): Pin "LEDG[2]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 18
+    Warning (13410): Pin "LEDG[3]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 18
+    Warning (13410): Pin "LEDG[4]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 18
+    Warning (13410): Pin "LEDG[5]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 18
+    Warning (13410): Pin "LEDG[6]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 18
+    Warning (13410): Pin "LEDG[7]" is stuck at GND File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 18
+    Warning (13410): Pin "UART_CTS" is stuck at VCC File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 19
+Info (286030): Timing-Driven Synthesis is running
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Warning (21074): Design contains 7 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "KEY[0]" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 11
-    Warning (15610): No output dependent on input pin "KEY[1]" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 11
-    Warning (15610): No output dependent on input pin "KEY[2]" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 11
-    Warning (15610): No output dependent on input pin "UART_RTS" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 13
-    Warning (15610): No output dependent on input pin "UART_RTX" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 14
-    Warning (15610): No output dependent on input pin "CLOCK_50" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 12
-    Warning (15610): No output dependent on input pin "KEY[3]" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 11
-Info (21057): Implemented 17 device resources after synthesis - the final resource count might be different
+Warning (21074): Design contains 5 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "KEY[0]" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 13
+    Warning (15610): No output dependent on input pin "KEY[1]" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 13
+    Warning (15610): No output dependent on input pin "KEY[2]" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 13
+    Warning (15610): No output dependent on input pin "UART_RTS" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 15
+    Warning (15610): No output dependent on input pin "UART_RTX" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 16
+Info (21057): Implemented 94 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 7 input pins
     Info (21059): Implemented 10 output pins
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 24 warnings
-    Info: Peak virtual memory: 4776 megabytes
-    Info: Processing ended: Wed Apr 05 14:15:44 2023
-    Info: Elapsed time: 00:00:08
-    Info: Total CPU time (on all processors): 00:00:17
+    Info (21061): Implemented 77 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 20 warnings
+    Info: Peak virtual memory: 4794 megabytes
+    Info: Processing ended: Thu Apr 13 13:49:55 2023
+    Info: Elapsed time: 00:00:09
+    Info: Total CPU time (on all processors): 00:00:20
 
 

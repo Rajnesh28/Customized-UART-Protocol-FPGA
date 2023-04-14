@@ -26,14 +26,14 @@ END COMPONENT;
 CONSTANT period : time := 10ns;
 SIGNAL clksig : STD_LOGIC := '1'; 
 
-SIGNAL UART_RTSsig, UART_RTXsig, UARTTXDSIG : STD_LOGIC;
+SIGNAL UART_RTSsig, UART_RTXsig : STD_LOGIC;
 SIGNAL KEYsig : STD_LOGIC_VECTOR(3 DOWNTO 0);
 
 BEGIN
 
 DUT : Transmitter 
 
-PORT MAP(KEY=>KEYsig, CLOCK_50=>clksig, UART_RTS=>UART_RTSsig, UART_RTX=>UART_RTXsig, UART_TXD => UARTTXDSIG);
+PORT MAP(KEY=>KEYsig, CLOCK_50=>clksig, UART_RTS=>UART_RTSsig, UART_RTX=>UART_RTXsig);
 
 clksig <= NOT clksig after period;
 
@@ -44,7 +44,7 @@ BEGIN
 
 Keysig(3) <= '0';
 
-wait for PERIOD;
+wait for period;
 
 Keysig(3) <= '1';
 

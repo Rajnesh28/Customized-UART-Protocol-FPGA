@@ -22,6 +22,7 @@ end TRANSMITTER;
 
 architecture RTL of TRANSMITTER IS
 
+
 TYPE STATE_TYPE IS (init, transmit, endTransmit);
 SIGNAL transmitState : STATE_TYPE;
 
@@ -45,27 +46,21 @@ BEGIN
 
 IF (KEY(3) = '0') THEN
 	COUNTER := 0;
-	K := 0;
-	DATA_CYCLES := 0;
-	MESSAGETOTRANSMIT := "00000000000";
 	transmitState <= init;
-	
 ELSIF(RISING_EDGE(CLOCK_50)) THEN
 	CASE transmitState IS 
 	
 	WHEN init =>
-		--messageByte := "01000001";
+		messageByte := "01000001";
 		parityBit := '1';
 		startBit := '0';
 		stopBit := '1';
 		UART_CTS <= '1';
 		UART_TXD <= '1';
-
 		K:= 0;
+		transmitState <= transmit;
 		
 		if (COUNTER = 10) THEN
-			--messageToTransmit <= startBit & "01010101" & parityBit & stopBit;
-			messageToTransmit := "001010101" & parityBit & stopBit;		
 			transmitState<= transmit;
 		else
 			COUNTER := COUNTER + 1;
@@ -73,11 +68,13 @@ ELSIF(RISING_EDGE(CLOCK_50)) THEN
 		END IF;
 		
 	WHEN transmit =>
+		messageToTransmit := startBit & "01000001" & parityBit & stopBit;		
 		UART_TXD <= messageToTransmit(K);
 
 		IF (DATA_CYCLES = 10) THEN
 			 IF (K < 10) THEN
 				K := K + 1;
+				UART_TXD <= messageToTransmit(K);
 				DATA_CYCLES := 0;
 				transmitState <= transmit;
 			 ELSE 
