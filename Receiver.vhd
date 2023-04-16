@@ -7,15 +7,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity RECEIVER is
-  port(
-		  KEY		  : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-		  CLOCK_50 : IN STD_LOGIC;
-        UART_RTS : IN STD_LOGIC;
-		  UART_RTX : IN STD_LOGIC;--
-		  
-		  LEDG	  : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-		  DATA	  : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
-);					
+	PORT(   CLOCK_50 	: IN STD_LOGIC;
+			  KEY 		: IN STD_LOGIC_VECTOR(3 downto 0);  
+			  
+			  UART_RTX  : IN STD_LOGIC;
+			  UART_RTS  : IN STD_LOGIC);		
 end RECEIVER;
 
 architecture rtl of RECEIVER is
@@ -114,6 +110,5 @@ ELSIF (RISING_EDGE(CLOCK_50)) THEN
 		
 END IF;
 END PROCESS;
-DATA <= DATA_R;
 
 END;

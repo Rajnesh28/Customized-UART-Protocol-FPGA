@@ -9,13 +9,11 @@ use ieee.std_logic_arith.all;
 --	);
 	
 entity TRANSMITTER is
-     port(
-		  KEY		  : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-		  CLOCK_50 : IN STD_LOGIC;
-		  
-		  LEDG	  : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-		  UART_CTS : OUT STD_LOGIC;
-		  UART_TXD : OUT STD_LOGIC); 
+	PORT(   CLOCK_50 	: IN STD_LOGIC; 
+			  KEY 		: IN STD_LOGIC_VECTOR(3 downto 0);  
+			  
+			  UART_TXD	: OUT STD_LOGIC;
+			  UART_CTS	: OUT STD_LOGIC);
 end TRANSMITTER;
 
 architecture RTL of TRANSMITTER IS
@@ -24,7 +22,7 @@ TYPE STATE_TYPE IS (init, transmit, endTransmit);
 SIGNAL transmitState : STATE_TYPE;
 
 BEGIN
-implicitFSM: PROCESS(CLOCK_50)
+implicitFSM: PROCESS(CLOCK_50, KEY(3))
 
 VARIABLE memoryCounter : INTEGER RANGE 0 TO 256;
 VARIABLE messageByteCounter : INTEGER Range 0 TO 256;
@@ -59,7 +57,7 @@ ELSIF(RISING_EDGE(CLOCK_50)) THEN
 		UART_CTS <= '1';
 		UART_TXD <= '1';
 		
-		messageToTransmit := startbit & "10101010" & parityBit & stopBit;	--its transmitting backwards!!!!
+		messageToTransmit := startbit & "01000001" & parityBit & stopBit;	--its transmitting backwards!!!!
 		UART_TXD <= messageToTransmit(K);
 		transmitState<= transmit;
 		
@@ -81,7 +79,6 @@ ELSIF(RISING_EDGE(CLOCK_50)) THEN
 
 		
 	WHEN endTransmit =>
-		LEDG(0) <= '1';
 		transmitState <= endTransmit;
 	
 	

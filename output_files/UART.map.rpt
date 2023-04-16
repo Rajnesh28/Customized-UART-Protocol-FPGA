@@ -1,5 +1,5 @@
 Analysis & Synthesis report for UART
-Sat Apr 15 15:14:30 2023
+Sun Apr 16 12:38:26 2023
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -10,7 +10,18 @@ Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
   2. Analysis & Synthesis Summary
   3. Analysis & Synthesis Settings
   4. Parallel Compilation
-  5. Analysis & Synthesis Messages
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. State Machine - |UART|RECEIVER:UART_R|CURRENT_STATE
+  9. State Machine - |UART|TRANSMITTER:UART_T|transmitState
+ 10. Registers Removed During Synthesis
+ 11. Removed Registers Triggering Further Register Optimizations
+ 12. General Register Statistics
+ 13. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 14. Post-Synthesis Netlist Statistics for Top Partition
+ 15. Elapsed Time Per Partition
+ 16. Analysis & Synthesis Messages
 
 
 
@@ -37,20 +48,20 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Failed - Sat Apr 15 15:14:30 2023           ;
+; Analysis & Synthesis Status        ; Successful - Sun Apr 16 12:38:26 2023       ;
 ; Quartus Prime Version              ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                      ; UART                                        ;
 ; Top-level Entity Name              ; UART                                        ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; N/A until Partition Merge                   ;
-;     Total combinational functions  ; N/A until Partition Merge                   ;
-;     Dedicated logic registers      ; N/A until Partition Merge                   ;
-; Total registers                    ; N/A until Partition Merge                   ;
-; Total pins                         ; N/A until Partition Merge                   ;
-; Total virtual pins                 ; N/A until Partition Merge                   ;
-; Total memory bits                  ; N/A until Partition Merge                   ;
-; Embedded Multiplier 9-bit elements ; N/A until Partition Merge                   ;
-; Total PLLs                         ; N/A until Partition Merge                   ;
+; Total logic elements               ; 41                                          ;
+;     Total combinational functions  ; 40                                          ;
+;     Dedicated logic registers      ; 20                                          ;
+; Total registers                    ; 20                                          ;
+; Total pins                         ; 9                                           ;
+; Total virtual pins                 ; 0                                           ;
+; Total memory bits                  ; 0                                           ;
+; Embedded Multiplier 9-bit elements ; 0                                           ;
+; Total PLLs                         ; 0                                           ;
 +------------------------------------+---------------------------------------------+
 
 
@@ -145,15 +156,222 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------+-------------+
 ; Processors                 ; Number      ;
 +----------------------------+-------------+
-; Number detected on machine ; 8           ;
-; Maximum allowed            ; 4           ;
+; Number detected on machine ; 16          ;
+; Maximum allowed            ; 8           ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 1           ;
+; Maximum used               ; 8           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
+;     Processors 2-8         ;   0.0%      ;
 +----------------------------+-------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                        ;
++----------------------------------+-----------------+-----------------+------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                 ; Library ;
++----------------------------------+-----------------+-----------------+------------------------------------------------------------------------------+---------+
+; Transmitter.vhd                  ; yes             ; User VHDL File  ; C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/Transmitter.vhd    ;         ;
+; tb_Transmitter.vhd               ; yes             ; User VHDL File  ; C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/tb_Transmitter.vhd ;         ;
+; Receiver.vhd                     ; yes             ; User VHDL File  ; C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/Receiver.vhd       ;         ;
+; tb_Receiver.vhd                  ; yes             ; User VHDL File  ; C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/tb_Receiver.vhd    ;         ;
+; UART.vhd                         ; yes             ; User VHDL File  ; C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/UART.vhd           ;         ;
++----------------------------------+-----------------+-----------------+------------------------------------------------------------------------------+---------+
+
+
++--------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                  ;
++---------------------------------------------+----------------+
+; Resource                                    ; Usage          ;
++---------------------------------------------+----------------+
+; Estimated Total logic elements              ; 41             ;
+;                                             ;                ;
+; Total combinational functions               ; 40             ;
+; Logic element usage by number of LUT inputs ;                ;
+;     -- 4 input functions                    ; 18             ;
+;     -- 3 input functions                    ; 6              ;
+;     -- <=2 input functions                  ; 16             ;
+;                                             ;                ;
+; Logic elements by mode                      ;                ;
+;     -- normal mode                          ; 29             ;
+;     -- arithmetic mode                      ; 11             ;
+;                                             ;                ;
+; Total registers                             ; 20             ;
+;     -- Dedicated logic registers            ; 20             ;
+;     -- I/O registers                        ; 0              ;
+;                                             ;                ;
+; I/O pins                                    ; 9              ;
+;                                             ;                ;
+; Embedded Multiplier 9-bit elements          ; 0              ;
+;                                             ;                ;
+; Maximum fan-out node                        ; CLOCK_50~input ;
+; Maximum fan-out                             ; 20             ;
+; Total fan-out                               ; 199            ;
+; Average fan-out                             ; 2.55           ;
++---------------------------------------------+----------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                           ;
++----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------+-------------+--------------+
+; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name      ; Entity Name ; Library Name ;
++----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------+-------------+--------------+
+; |UART                      ; 40 (0)              ; 20 (0)                    ; 0           ; 0            ; 0       ; 0         ; 9    ; 0            ; |UART                    ; UART        ; work         ;
+;    |TRANSMITTER:UART_T|    ; 40 (40)             ; 20 (20)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |UART|TRANSMITTER:UART_T ; TRANSMITTER ; work         ;
++----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------+-------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
+Encoding Type:  One-Hot
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |UART|RECEIVER:UART_R|CURRENT_STATE                                                                                                                                                                        ;
++--------------------------------+--------------------------------+---------------------------+-----------------------------+-------------------------+---------------------------+--------------------+---------------------+
+; Name                           ; CURRENT_STATE.TRANSMIT_MESSAGE ; CURRENT_STATE.DISPLAY_LCD ; CURRENT_STATE.VERIFY_PARITY ; CURRENT_STATE.READ_DATA ; CURRENT_STATE.WAITPERIODS ; CURRENT_STATE.IDLE ; CURRENT_STATE.RESET ;
++--------------------------------+--------------------------------+---------------------------+-----------------------------+-------------------------+---------------------------+--------------------+---------------------+
+; CURRENT_STATE.RESET            ; 0                              ; 0                         ; 0                           ; 0                       ; 0                         ; 0                  ; 0                   ;
+; CURRENT_STATE.IDLE             ; 0                              ; 0                         ; 0                           ; 0                       ; 0                         ; 1                  ; 1                   ;
+; CURRENT_STATE.WAITPERIODS      ; 0                              ; 0                         ; 0                           ; 0                       ; 1                         ; 0                  ; 1                   ;
+; CURRENT_STATE.READ_DATA        ; 0                              ; 0                         ; 0                           ; 1                       ; 0                         ; 0                  ; 1                   ;
+; CURRENT_STATE.VERIFY_PARITY    ; 0                              ; 0                         ; 1                           ; 0                       ; 0                         ; 0                  ; 1                   ;
+; CURRENT_STATE.DISPLAY_LCD      ; 0                              ; 1                         ; 0                           ; 0                       ; 0                         ; 0                  ; 1                   ;
+; CURRENT_STATE.TRANSMIT_MESSAGE ; 1                              ; 0                         ; 0                           ; 0                       ; 0                         ; 0                  ; 1                   ;
++--------------------------------+--------------------------------+---------------------------+-----------------------------+-------------------------+---------------------------+--------------------+---------------------+
+
+
+Encoding Type:  One-Hot
++-----------------------------------------------------------------------------------------------------+
+; State Machine - |UART|TRANSMITTER:UART_T|transmitState                                              ;
++---------------------------+---------------------------+------------------------+--------------------+
+; Name                      ; transmitState.endTransmit ; transmitState.transmit ; transmitState.init ;
++---------------------------+---------------------------+------------------------+--------------------+
+; transmitState.init        ; 0                         ; 0                      ; 0                  ;
+; transmitState.transmit    ; 0                         ; 1                      ; 1                  ;
+; transmitState.endTransmit ; 1                         ; 0                      ; 1                  ;
++---------------------------+---------------------------+------------------------+--------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                                ;
++----------------------------------------------------------------+------------------------------------------------------------------+
+; Register name                                                  ; Reason for Removal                                               ;
++----------------------------------------------------------------+------------------------------------------------------------------+
+; TRANSMITTER:UART_T|\implicitFSM:messageToTransmit[1,3..7,9,10] ; Stuck at GND due to stuck port data_in                           ;
+; TRANSMITTER:UART_T|UART_CTS                                    ; Stuck at VCC due to stuck port data_in                           ;
+; TRANSMITTER:UART_T|\implicitFSM:messageToTransmit[0]           ; Merged with TRANSMITTER:UART_T|\implicitFSM:messageToTransmit[2] ;
+; TRANSMITTER:UART_T|\implicitFSM:messageToTransmit[2]           ; Merged with TRANSMITTER:UART_T|\implicitFSM:messageToTransmit[8] ;
+; RECEIVER:UART_R|PARITY_R                                       ; Lost fanout                                                      ;
+; RECEIVER:UART_R|PARITY_T                                       ; Lost fanout                                                      ;
+; RECEIVER:UART_R|\NEXT_LOGIC:INDEX[0..31]                       ; Lost fanout                                                      ;
+; RECEIVER:UART_R|\NEXT_LOGIC:CYCLES[0..31]                      ; Lost fanout                                                      ;
+; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[0..31]                 ; Lost fanout                                                      ;
+; RECEIVER:UART_R|DATA_R[0..7]                                   ; Lost fanout                                                      ;
+; RECEIVER:UART_R|CURRENT_STATE.RESET                            ; Lost fanout                                                      ;
+; RECEIVER:UART_R|CURRENT_STATE.IDLE                             ; Lost fanout                                                      ;
+; RECEIVER:UART_R|CURRENT_STATE.WAITPERIODS                      ; Lost fanout                                                      ;
+; RECEIVER:UART_R|CURRENT_STATE.READ_DATA                        ; Lost fanout                                                      ;
+; RECEIVER:UART_R|CURRENT_STATE.VERIFY_PARITY                    ; Lost fanout                                                      ;
+; RECEIVER:UART_R|CURRENT_STATE.DISPLAY_LCD                      ; Lost fanout                                                      ;
+; RECEIVER:UART_R|CURRENT_STATE.TRANSMIT_MESSAGE                 ; Lost fanout                                                      ;
+; TRANSMITTER:UART_T|transmitState.endTransmit                   ; Lost fanout                                                      ;
+; Total Number of Removed Registers = 125                        ;                                                                  ;
++----------------------------------------------------------------+------------------------------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                                            ;
++---------------------------------------------+--------------------+-------------------------------------------------------------------------------------+
+; Register name                               ; Reason for Removal ; Registers Removed due to This Register                                              ;
++---------------------------------------------+--------------------+-------------------------------------------------------------------------------------+
+; RECEIVER:UART_R|PARITY_T                    ; Lost Fanouts       ; RECEIVER:UART_R|\NEXT_LOGIC:INDEX[31], RECEIVER:UART_R|\NEXT_LOGIC:INDEX[30],       ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:INDEX[29], RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[31], ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[30],                                        ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[29],                                        ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[28],                                        ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[27],                                        ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[26],                                        ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[25], RECEIVER:UART_R|CURRENT_STATE.RESET,   ;
+;                                             ;                    ; RECEIVER:UART_R|CURRENT_STATE.READ_DATA                                             ;
+; RECEIVER:UART_R|PARITY_R                    ; Lost Fanouts       ; RECEIVER:UART_R|DATA_R[7], RECEIVER:UART_R|DATA_R[6], RECEIVER:UART_R|DATA_R[5],    ;
+;                                             ;                    ; RECEIVER:UART_R|DATA_R[4], RECEIVER:UART_R|DATA_R[3], RECEIVER:UART_R|DATA_R[2],    ;
+;                                             ;                    ; RECEIVER:UART_R|DATA_R[1], RECEIVER:UART_R|CURRENT_STATE.VERIFY_PARITY              ;
+; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[11] ; Lost Fanouts       ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[10],                                        ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[9],                                         ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[8],                                         ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[7],                                         ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[6]                                          ;
+; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[5]  ; Lost Fanouts       ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[4],                                         ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[3],                                         ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[2],                                         ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[1],                                         ;
+;                                             ;                    ; RECEIVER:UART_R|\NEXT_LOGIC:DATA_CYCLES[0]                                          ;
+; RECEIVER:UART_R|\NEXT_LOGIC:CYCLES[31]      ; Lost Fanouts       ; RECEIVER:UART_R|CURRENT_STATE.WAITPERIODS                                           ;
++---------------------------------------------+--------------------+-------------------------------------------------------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 20    ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 19    ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 10    ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                     ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------+
+; 3:1                ; 12 bits   ; 24 LEs        ; 12 LEs               ; 12 LEs                 ; Yes        ; |UART|TRANSMITTER:UART_T|\implicitFSM:DATA_CYCLES[6] ;
+; 7:1                ; 30 bits   ; 120 LEs       ; 30 LEs               ; 90 LEs                 ; Yes        ; |UART|RECEIVER:UART_R|\NEXT_LOGIC:INDEX[27]          ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 2 LEs                ; 6 LEs                  ; Yes        ; |UART|RECEIVER:UART_R|\NEXT_LOGIC:INDEX[0]           ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |UART|RECEIVER:UART_R|CURRENT_STATE                  ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |UART|RECEIVER:UART_R|CURRENT_STATE                  ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |UART|RECEIVER:UART_R|DATA_CYCLES                    ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |UART|TRANSMITTER:UART_T|transmitState               ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------+
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; boundary_port         ; 9                           ;
+; cycloneiii_ff         ; 20                          ;
+;     CLR               ; 10                          ;
+;     ENA               ; 1                           ;
+;     ENA CLR           ; 9                           ;
+; cycloneiii_lcell_comb ; 41                          ;
+;     arith             ; 11                          ;
+;         2 data inputs ; 11                          ;
+;     normal            ; 30                          ;
+;         0 data inputs ; 1                           ;
+;         1 data inputs ; 1                           ;
+;         2 data inputs ; 4                           ;
+;         3 data inputs ; 6                           ;
+;         4 data inputs ; 18                          ;
+;                       ;                             ;
+; Max LUT depth         ; 4.00                        ;
+; Average LUT depth     ; 2.83                        ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:00     ;
++----------------+--------------+
 
 
 +-------------------------------+
@@ -162,33 +380,50 @@ https://fpgasoftware.intel.com/eula.
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
-    Info: Processing started: Sat Apr 15 15:14:19 2023
+    Info: Processing started: Sun Apr 16 12:38:16 2023
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off UART -c UART
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
-Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (20030): Parallel compilation is enabled and will use 8 of the 8 processors detected
 Info (12021): Found 2 design units, including 1 entities, in source file transmitter.vhd
-    Info (12022): Found design unit 1: TRANSMITTER-RTL File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 23
-    Info (12023): Found entity 1: TRANSMITTER File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 11
+    Info (12022): Found design unit 1: TRANSMITTER-RTL File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 19
+    Info (12023): Found entity 1: TRANSMITTER File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 11
 Info (12021): Found 2 design units, including 1 entities, in source file tb_transmitter.vhd
-    Info (12022): Found design unit 1: tb_Transmitter-test File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/tb_Transmitter.vhd Line: 10
-    Info (12023): Found entity 1: tb_Transmitter File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/tb_Transmitter.vhd Line: 6
+    Info (12022): Found design unit 1: tb_Transmitter-test File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/tb_Transmitter.vhd Line: 10
+    Info (12023): Found entity 1: tb_Transmitter File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/tb_Transmitter.vhd Line: 6
 Info (12021): Found 2 design units, including 1 entities, in source file receiver.vhd
-    Info (12022): Found design unit 1: RECEIVER-rtl File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 22
-    Info (12023): Found entity 1: RECEIVER File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 9
+    Info (12022): Found design unit 1: RECEIVER-rtl File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 17
+    Info (12023): Found entity 1: RECEIVER File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 9
 Info (12021): Found 2 design units, including 1 entities, in source file tb_receiver.vhd
-    Info (12022): Found design unit 1: tb_receiver-test File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/tb_Receiver.vhd Line: 10
-    Info (12023): Found entity 1: tb_RECEIVER File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/tb_Receiver.vhd Line: 6
+    Info (12022): Found design unit 1: tb_receiver-test File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/tb_Receiver.vhd Line: 10
+    Info (12023): Found entity 1: tb_RECEIVER File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/tb_Receiver.vhd Line: 6
 Info (12021): Found 2 design units, including 1 entities, in source file uart.vhd
-    Info (12022): Found design unit 1: UART-structural File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/UART.vhd Line: 17
-    Info (12023): Found entity 1: UART File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/UART.vhd Line: 8
-Error (10346): VHDL error at UART.vhd(48): formal port or parameter "UART_RTS" must have actual or default value File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/UART.vhd Line: 48
-Error (10784): HDL error at UART.vhd(23): see declaration for object "UART_RTS" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/UART.vhd Line: 23
-Error (10346): VHDL error at UART.vhd(48): formal port or parameter "UART_RTX" must have actual or default value File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/UART.vhd Line: 48
-Error (10784): HDL error at UART.vhd(24): see declaration for object "UART_RTX" File: C:/Users/yourf/Desktop/ENSC350/Project/Customized-UART-Protocol-FPGA/UART.vhd Line: 24
-Error: Quartus Prime Analysis & Synthesis was unsuccessful. 4 errors, 1 warning
-    Error: Peak virtual memory: 4774 megabytes
-    Error: Processing ended: Sat Apr 15 15:14:30 2023
-    Error: Elapsed time: 00:00:11
-    Error: Total CPU time (on all processors): 00:00:26
+    Info (12022): Found design unit 1: UART-structural File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/UART.vhd Line: 21
+    Info (12023): Found entity 1: UART File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/UART.vhd Line: 8
+Info (12127): Elaborating entity "UART" for the top level hierarchy
+Info (12128): Elaborating entity "TRANSMITTER" for hierarchy "TRANSMITTER:UART_T" File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/UART.vhd Line: 42
+Warning (10036): Verilog HDL or VHDL warning at Transmitter.vhd(36): object "COUNTER" assigned a value but never read File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/Transmitter.vhd Line: 36
+Info (12128): Elaborating entity "RECEIVER" for hierarchy "RECEIVER:UART_R" File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/UART.vhd Line: 44
+Warning (10036): Verilog HDL or VHDL warning at Receiver.vhd(24): object "REDO_TRANSMIT" assigned a value but never read File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/Receiver.vhd Line: 24
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "UART_CTS" is stuck at VCC File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/UART.vhd Line: 17
+Info (286030): Timing-Driven Synthesis is running
+Info (17049): 114 registers lost all their fanouts during netlist optimizations.
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Warning (21074): Design contains 5 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "KEY[0]" File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/UART.vhd Line: 10
+    Warning (15610): No output dependent on input pin "KEY[1]" File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/UART.vhd Line: 10
+    Warning (15610): No output dependent on input pin "KEY[2]" File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/UART.vhd Line: 10
+    Warning (15610): No output dependent on input pin "UART_RTS" File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/UART.vhd Line: 13
+    Warning (15610): No output dependent on input pin "UART_RTX" File: C:/Users/rajneshj/Documents/Customized-UART-Protocol-FPGA/UART.vhd Line: 12
+Info (21057): Implemented 50 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 7 input pins
+    Info (21059): Implemented 2 output pins
+    Info (21061): Implemented 41 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 12 warnings
+    Info: Peak virtual memory: 4830 megabytes
+    Info: Processing ended: Sun Apr 16 12:38:26 2023
+    Info: Elapsed time: 00:00:10
+    Info: Total CPU time (on all processors): 00:00:17
 
 
