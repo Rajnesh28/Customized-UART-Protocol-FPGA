@@ -13,7 +13,8 @@ entity TRANSMITTER is
 			  KEY 		: IN STD_LOGIC_VECTOR(3 downto 0);  
 			  
 			  UART_TXD	: OUT STD_LOGIC;
-			  UART_CTS	: OUT STD_LOGIC);
+			  UART_CTS	: OUT STD_LOGIC;
+			  LEDG : OUT STD_LOGIC_VECTOR(7 DOWNTO 0));
 end TRANSMITTER;
 
 architecture RTL of TRANSMITTER IS
@@ -35,7 +36,7 @@ VARIABLE startBit : STD_LOGIC;
 VARIABLE DATA_CYCLES : INTEGER RANGE 0 to 2700;
 VARIABLE COUNTER : INTEGER RANGE 0 TO 100000000;
 VARIABLE beginTransmit : STD_LOGIC;
-VARIABLE messageToTransmit : STD_LOGIC_VECTOR (10 downto 0);
+VARIABLE messageToTransmit : STD_LOGIC_VECTOR (9 downto 0);
 
 BEGIN
 
@@ -44,7 +45,8 @@ IF (KEY(3) = '0') THEN
 	COUNTER := 0;
 	K := 0;
 	DATA_CYCLES := 0;
-	messageToTransmit := "00000000000";
+	messageToTransmit := "0000000000";
+	LEDG(0) <= '1';
 	transmitState <= init;
 	
 ELSIF(RISING_EDGE(CLOCK_50)) THEN
@@ -58,7 +60,9 @@ ELSIF(RISING_EDGE(CLOCK_50)) THEN
 		UART_CTS <= '1';
 		UART_TXD <= '1';
 		
-		messageToTransmit := stopBit & parityBit & "10000010" & startbit;	--its transmitting backwards!!!!
+		LEDG(0) <= '0';
+
+		messageToTransmit := stopBit & "01000001" & startbit;	--its transmitting backwards!!!!
 		UART_TXD <= messageToTransmit(K);
 		transmitState<= transmit;
 		
@@ -66,12 +70,12 @@ ELSIF(RISING_EDGE(CLOCK_50)) THEN
 		beginTransmit := '1';
 		
 	IF (DATA_CYCLES = 2605) THEN
-		IF (K < 10) THEN
+		IF (K < 9) THEN
 			K := K + 1;
 			UART_TXD <= messageToTransmit(K);
 			DATA_CYCLES := 0;
 			TRANSMITSTATE <= TRANSMIT;
-		ELSIF (K = 10) THEN
+		ELSIF (K = 9) THEN
 			UART_TXD <= messageToTransmit(K);
 			TRANSMITSTATE <= ENDTRANSMIT;
 		END IF;
@@ -82,6 +86,7 @@ ELSIF(RISING_EDGE(CLOCK_50)) THEN
 
 		
 	WHEN endTransmit =>
+		--LEDG <= MESSAGETOTRANSMIT(8 DOWNTO 1);
 		transmitState <= endTransmit;
 	
 	

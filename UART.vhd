@@ -14,7 +14,8 @@ ENTITY UART IS
 			  
 			  
 			  UART_TXD	: OUT STD_LOGIC;
-			  UART_CTS	: OUT STD_LOGIC);
+			  UART_CTS	: OUT STD_LOGIC
+			  );
 END UART;
 
 

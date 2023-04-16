@@ -15,7 +15,8 @@ COMPONENT Transmitter is
 		  CLOCK_50 : IN STD_LOGIC;
 		  
 		  UART_CTS : OUT STD_LOGIC;
-		  UART_TXD : OUT STD_LOGIC); 
+		  UART_TXD : OUT STD_LOGIC
+		  ); 
 END COMPONENT;
 
 
