@@ -34,16 +34,17 @@ VARIABLE stopBit : STD_LOGIC;
 VARIABLE startBit : STD_LOGIC;
 VARIABLE DATA_CYCLES : INTEGER RANGE 0 to 2700;
 VARIABLE COUNTER : INTEGER RANGE 0 TO 100000000;
-
-VARIABLE messageToTransmit : STD_LOGIC_VECTOR (0 DOWNTO 10);
+VARIABLE beginTransmit : STD_LOGIC;
+VARIABLE messageToTransmit : STD_LOGIC_VECTOR (10 downto 0);
 
 BEGIN
 
 IF (KEY(3) = '0') THEN
+	UART_TXD <= '1';
 	COUNTER := 0;
 	K := 0;
 	DATA_CYCLES := 0;
-	MESSAGETOTRANSMIT := "00000000000";
+	messageToTransmit := "00000000000";
 	transmitState <= init;
 	
 ELSIF(RISING_EDGE(CLOCK_50)) THEN
@@ -57,11 +58,13 @@ ELSIF(RISING_EDGE(CLOCK_50)) THEN
 		UART_CTS <= '1';
 		UART_TXD <= '1';
 		
-		messageToTransmit := startbit & "01000001" & parityBit & stopBit;	--its transmitting backwards!!!!
+		messageToTransmit := stopBit & parityBit & "10000010" & startbit;	--its transmitting backwards!!!!
 		UART_TXD <= messageToTransmit(K);
 		transmitState<= transmit;
 		
 	WHEN transmit =>
+		beginTransmit := '1';
+		
 	IF (DATA_CYCLES = 2605) THEN
 		IF (K < 10) THEN
 			K := K + 1;

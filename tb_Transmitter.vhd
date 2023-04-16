@@ -45,7 +45,7 @@ wait for PERIOD;
 
 Keysig(3) <= '1';
 
-wait for 30000ns;
+wait for 600000ns;
 
 wait;
 
