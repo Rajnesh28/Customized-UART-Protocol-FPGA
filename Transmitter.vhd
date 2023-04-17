@@ -62,7 +62,7 @@ ELSIF(RISING_EDGE(CLOCK_50)) THEN
 		
 		LEDG(0) <= '0';
 
-		messageToTransmit :=  stopBit & PARITYBIT & "01000001" & startbit;	--its transmitting backwards!!!!
+		messageToTransmit :=  stopBit & PARITYBIT & "01001000" & startbit;	--its transmitting backwards!!!!
 		UART_TXD <= messageToTransmit(K);
 		transmitState<= transmit;
 		
