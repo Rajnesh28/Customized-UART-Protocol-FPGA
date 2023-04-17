@@ -1,0 +1,127 @@
+--Rajnesh Joshi & Devon Sandhu
+--ENSC 350
+--Lab Group 28
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+ENTITY rxSerialport IS
+	PORT(
+		  KEY		  			  : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+		  CLOCK_50 			  : IN STD_LOGIC;
+		  
+		  UART_RXD 			  : IN STD_LOGIC;
+        UART_CTS 			  : OUT STD_LOGIC;
+		  
+		  LEDR				  : OUT STD_LOGIC_VECTOR(17 DOWNTO 0);
+		  recievedMessage	  : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+);		
+end rxSerialport;
+
+architecture rtl of rxSerialport is
+
+type STATE IS (RESET, IDLE, WAITPERIODS, READ_DATA, VERIFY_PARITY, DISPLAY_LED); 
+SIGNAL CURRENT_STATE : STATE := IDLE; 
+
+SIGNAL REDO_TRANSMIT : STD_LOGIC := '0';
+SIGNAL PARITY_T		: STD_LOGIC := '0';
+SIGNAL PARITY_R		: STD_LOGIC := '1';
+SIGNAL DATA_R			: STD_LOGIC_VECTOR(7 DOWNTO 0);
+
+
+BEGIN
+  
+  
+NEXT_LOGIC : PROCESS(CLOCK_50, KEY(3))
+VARIABLE CYCLES 		: INTEGER RANGE 0 TO 4000;
+VARIABLE DATA_CYCLES : INTEGER RANGE 0 TO 3000;
+VARIABLE INDEX 		: INTEGER RANGE 0 TO 11;
+VARIABLE i		 		: INTEGER RANGE 0 TO 9;
+
+
+BEGIN
+
+IF (KEY(3) = '0') THEN
+	CURRENT_STATE <= RESET;
+
+ELSIF (RISING_EDGE(CLOCK_50)) THEN
+
+	CASE CURRENT_STATE IS 
+
+	WHEN RESET =>
+		CYCLES := 0;
+		DATA_CYCLES := 0;
+		INDEX := 0;
+		i := 0;
+		UART_CTS <= '1';
+		CURRENT_STATE <= IDLE;
+	
+	WHEN IDLE =>
+		IF (UART_RXD = '0') THEN
+			UART_CTS <= '0';
+			CURRENT_STATE <= WAITPERIODS;
+		ELSE 
+			CURRENT_STATE <= IDLE;
+		END IF;
+	
+	WHEN WAITPERIODS => 
+		IF (CYCLES = 3908) THEN	
+			DATA_R(INDEX) <= UART_RXD; --Register the first messageBit
+			CURRENT_STATE <= READ_DATA;
+		ELSE 
+			CYCLES := CYCLES + 1;
+			CURRENT_STATE <= WAITPERIODS;
+		END IF;
+
+	WHEN READ_DATA =>
+	
+			IF (DATA_CYCLES = 2605) THEN
+				IF (INDEX < 10) THEN
+					INDEX := INDEX + 1;
+					IF (INDEX = 8) THEN
+						PARITY_T <= UART_RXD;
+					ELSIF (INDEX = 9) THEN
+						INDEX := 0;
+						CURRENT_STATE <= VERIFY_PARITY;
+					ELSE
+						DATA_R(INDEX) <= UART_RXD;
+						DATA_CYCLES := 0;
+						CURRENT_STATE <= READ_DATA;
+					END IF;
+				END IF;
+			ELSE
+				DATA_CYCLES := DATA_CYCLES + 1;
+				CURRENT_STATE <= READ_DATA;
+			END IF;
+	
+	WHEN VERIFY_PARITY =>
+		IF (DATA_R(i) = '1') THEN
+			PARITY_R <= NOT PARITY_R;
+		ELSE
+			PARITY_R <= PARITY_R;
+		END IF;
+		
+		IF (i < 7)THEN
+			i := i + 1;
+			CURRENT_STATE <= VERIFY_PARITY;
+		ELSIF (PARITY_R = PARITY_T) THEN
+			CURRENT_STATE <= DISPLAY_LED;
+		ELSE
+			REDO_TRANSMIT <= '1';
+			CURRENT_STATE <= RESET;
+		END IF;
+--					
+	WHEN DISPLAY_LED =>
+		
+		--recievedMessage <= DATA_R;
+		LEDR(7 DOWNTO 0) <= DATA_R;
+		CURRENT_STATE <= RESET;
+		
+	END CASE;
+		
+		
+END IF;
+END PROCESS;
+
+END;
