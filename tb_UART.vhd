@@ -9,7 +9,7 @@ ENTITY tb_UART IS
 END tb_UART;
 
 ARCHITECTURE test of tb_UART IS
-COMPONENT simulatedUART
+COMPONENT completeUART
 	PORT(   CLOCK_50 	: IN STD_LOGIC; -- the fast clock for spinning wheel
 			  KEY 		: IN STD_LOGIC_VECTOR(3 downto 0);  -- includes slow_clock and reset
 			  
@@ -37,9 +37,9 @@ SIGNAL recievedMessage2SIG	  :  STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 BEGIN
 
-DUT : simulatedUART 
+DUT : completeUART 
 
-PORT MAP(KEY=>KEYsig, CLOCK_50=>clksig, MESSAGE1=>MESSAGE1SIG, MESSAGE2=>MESSAGE1SIG, recievedMessage1 => recievedMessage1SIG, recievedMessage2 => recievedMessage2SIG);
+PORT MAP(KEY=>KEYsig, CLOCK_50=>clksig, MESSAGE1=>MESSAGE1SIG, MESSAGE2=>MESSAGE2SIG, recievedMessage1 => recievedMessage1SIG, recievedMessage2 => recievedMessage2SIG);
 
 clksig <= NOT clksig after period;
 
@@ -52,10 +52,21 @@ Keysig(3) <= '0';
 wait for 40ns;
 
 Keysig(3) <= '1';
-MESSAGE1SIG <= "10001000";
 MESSAGE2SIG <= "10101010";
+MESSAGE1SIG <= "10001000"; --"10101010";
 
-WAIT FOR 600000ns;
+WAIT FOR 550000ns;
+
+MESSAGE2SIG <= "11100001";
+MESSAGE1SIG <= "11111111";--"00000001";
+
+WAIT FOR 550000ns;
+
+MESSAGE2SIG <= "10011010";
+MESSAGE1SIG <= "10101000";--"10000010";
+
+WAIT FOR 550000ns;
+
 
 WAIT;
 END PROCESS;
