@@ -83,13 +83,13 @@ ELSIF(RISING_EDGE(CLOCK_50)) THEN
 		
 	WHEN beginTransmit =>
 	
-		messageToTransmit := startbit & message & parityBit & stopBit;
+		messageToTransmit := stopBit & parityBit & message & startBit;
 		UART_TXD <= messageToTransmit(K);
 		
 		TRANSMIT_STATE <= transmit;
 		
 	WHEN transmit =>
-		IF (dataCycles = 10) THEN
+		IF (dataCycles = 2605) THEN
 		
 			IF (K < 10) THEN
 				K := K + 1;
